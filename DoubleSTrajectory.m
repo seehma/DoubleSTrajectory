@@ -3,14 +3,16 @@ clc;
 clear;
 
 %% Initial Conditions
-qd_0 = 10;
+qd_0 = 30;
 qd_1 = 0;
 vd_0 = 0;
-vd_1 = 5;
+vd_1 = 0;
+
+Ts = 0.001;
 
 vd_max = 10;  vd_min = -vd_max;
-ad_max = 10;  ad_min = -ad_max;
-jd_max = 30;  jd_min = -jd_max;
+ad_max = 20;  ad_min = -ad_max;
+jd_max = 60;  jd_min = -jd_max;
 
 %% Given the initial conditions (qd_0, qd_1, vd_0, vd_1) compute 
 % BLOCK 1
@@ -107,7 +109,10 @@ v_lim = v_0 + (Ta-Tj_1)*a_lim_a;
 
 T=Ta+Tv+Td;
 
-time=0:0.001:T;
+% round final time to discrete ticks
+T=round(T*1000)/1000;
+
+time=0:Ts:T;
 i = 1;
 
 for t = time
@@ -179,6 +184,7 @@ for t = time
   i = i+1;
 end
 
+% draw the trajectory
 figure(1)
 plot(qd)
 title('Position');
@@ -190,4 +196,3 @@ plot(qdpp)
 title('Acceleration');
 figure(4)
 plot(qdppp)
-title('Jerk');
