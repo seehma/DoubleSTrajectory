@@ -153,7 +153,7 @@ for t = time
   
   % DECELERATION PHASE
   % t element of [T-Td,T-Td+Tj_2]
-  if( (t > (T-Td)) && (t <= (T-Td+Tj_2)) )
+  if( (t > (Ta+Tv)) && (t <= (Ta+Tv+Tj_1)) )
     q(i) = q_1 - (v_lim+v_1)*Td/2 + v_lim*(t-T+Td) - j_max*(t-T+Td)^3/6;
     qp(i) = v_lim - j_max*(t-T+Td)^2/2;
     qpp(i) = -j_max*(t-T+Td);
@@ -161,7 +161,7 @@ for t = time
   end
   
   % t element of [T-Td+Tj_2, T-Tj_2]
-  if( (t > (T-Td+Tj_2)) && (t <= (T-Tj_2)) )
+  if( (t > (Ta+Tv+Tj_2)) && (t <= (Ta+Tv+(Td-Tj_2))) )
     q(i) = q_1-(v_lim+v_1)*Td/2+v_lim*(t-T+Td)+a_lim_d/6*(3*(t-T+Td)^2-3*Tj_2*(t-T+Td)+Tj_2^2); 
     qp(i) = v_lim + a_lim_d*(t-T+Td-Tj_2/2);
     qpp(i) = -j_max*Tj_2;
@@ -169,11 +169,19 @@ for t = time
   end
   
   % t element of [T-Tj_2, T]
-  if( (t > (T-Tj_2)) && (t <= T) )
+  if( (t > (Ta+Tv+(Td-Tj_2))) && (t <= T) )
     q(i) = q_1 - v_1*(T-t) - j_max*(T-t)^3/6;
     qp(i) = v_1 + j_max*(T-t)^2/2;
     qpp(i) = -j_max*(T-t);
     qppp(i) = j_max;
+  end
+
+  % mark the end of trajectory
+  if( t > T )
+    q(i) = q_1;
+    qp(i) = v_1;
+    qpp(i) = 0;
+    qppp(i) = 0;
   end
   
   qd(i) = sigma*q(i);
@@ -181,7 +189,7 @@ for t = time
   qdpp(i) = sigma*qpp(i);
   qdppp(i) = sigma*qppp(i);
   
-  i = i+1;
+  i=i+1;
 end
 
 % draw the trajectory
