@@ -12,7 +12,7 @@ clear;
 
 %% Calculate the Trajectory by Function calling
 %
-[q, qp, qpp, qppp] = DoubleSTrajectoryFunction( 0.001, 0, 30, 0, 0, 20, -20, 60, -60, 120, -120 );
+[q, qp, qpp, qppp] = DoubleSTrajectoryFunction( 0.001, 0, -30, 0, 0, 20, -20, 60, -60, 120, -120 );
 
 %% Drawing the Trajectory in Plots
 %
