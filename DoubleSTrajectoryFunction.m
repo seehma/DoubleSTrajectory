@@ -124,7 +124,10 @@ T=Ta+Tv+Td;
 % round final time to discrete ticks
 T=round(T*1000)/1000;
 
+% time goes from zero in Ts (sample Time) steps to final time T
 time=0:Ts:T;
+
+% starting with tic 1
 i = 1;
 
 for t = time
