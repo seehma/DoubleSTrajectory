@@ -130,6 +130,16 @@ time=0:Ts:T;
 % starting with tic 1
 i = 1;
 
+% reading size of time array
+timeSize = size(time);
+
+% preallocating memory
+q = zeros(1,timeSize(1,2));
+qp = zeros(1,timeSize(1,2));
+qpp = zeros(1,timeSize(1,2));
+qppp = zeros(1,timeSize(1,2));
+
+% calculating the whole trajectory
 for t = time
 
   % ACCELERATION PHASE
