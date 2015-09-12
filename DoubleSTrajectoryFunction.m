@@ -1,26 +1,30 @@
-%% Base Implementation off DoubleSTrajectory Planner
+%% DoubleSTrajectory Planner Function
 %
 % Author:  Matthias Seehauser
 % Date:    26.04.2015
 % Version: 1.0
 %
+% T_s ... Sample Time for Trajectory Planning (for example 0.001 => 1 Millisecond)
 %
+% q_0 ... Startposition for Trajectory Planning
+% q_1 ... Endposition for Trajectory Planning
+% v_0 ... Velocity at Starting of new Trajectory
+% v_1 ... Velocity at End of Trajectory
+%
+% v_min, v_max ... Velocity Limits for Trajectory
+% a_min, a_max ... Acceleration Limits for Trajectory
+% j_min, j_max ... Jerk Limits for Trajectory Planning
+%
+function [qd, qdp, qdpp, qdppp] = DoubleSTrajectoryFunction( T_s, q_0, q_1, v_0, v_1, v_max, v_min, a_max, a_min, j_max, j_min )
 
-%% Prepare workspace
-clc;
-clear;
+Ts = T_s;
 
-%% Initial Conditions
-qd_0 = 1;
-qd_1 = 0;
-vd_0 = 0;
-vd_1 = 0;
+qd_0 = q_0; qd_1 = q_1;
+vd_0 = v_0; vd_1 = v_1;
 
-Ts = 0.001;
-
-vd_max = 10;  vd_min = -vd_max;
-ad_max = 20;  ad_min = -ad_max;
-jd_max = 60;  jd_min = -jd_max;
+vd_max = v_max;  vd_min = v_min;
+ad_max = a_max;  ad_min = a_min;
+jd_max = j_max;  jd_min = j_min;
 
 %% Given the initial conditions (qd_0, qd_1, vd_0, vd_1) compute 
 % BLOCK 1
@@ -197,19 +201,5 @@ for t = time
   qdpp(i) = sigma*qpp(i);
   qdppp(i) = sigma*qppp(i);
   
-  i=i+1;
+  i=i+1;   
 end
-
-%% Drawing the Trajectory in Plots
-% draw the trajectory
-figure(1)
-plot(qd)
-title('Position');
-figure(2)
-plot(qdp)
-title('Speed');
-figure(3)
-plot(qdpp)
-title('Acceleration');
-figure(4)
-plot(qdppp)
